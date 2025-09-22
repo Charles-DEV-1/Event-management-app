@@ -19,7 +19,6 @@ db = SQLAlchemy(app)
 class User(db.Model):
     
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    name = db.Column(db.String(30), nullable=False)
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(80), nullable=False)
@@ -49,7 +48,7 @@ def register():
         password = request.form.get("password")
         confirm_pass = request.form.get("confirm_pass")
         role = request.form.get("role")
-        files = request.files["profile_pic"]
+        files = request.files.get("profile_pic")
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
@@ -160,7 +159,7 @@ def logout():
         return redirect(url_for("login"))
     return render_template("login.html")
 
-@app.route("/event/int:<id>/edit", methods=["POST","GET"])
+@app.route("/event/<int:id>/edit", methods=["POST","GET"])
 def edit(id):
     if "user_id" in session:
         user = User.query.get(session["user_id"])
@@ -182,7 +181,7 @@ def edit(id):
         return redirect(url_for("dashboard"))
     return redirect(url_for("login"))
 
-@app.route("/event/int:<id>/delete", methods=["POST","GET"])
+@app.route("/event/<int:id>/delete", methods=["POST","GET"])
 def delete(id):
     if "user_id" in session:
         user = User.query.get(session["user_id"])
@@ -230,3 +229,4 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     
+
