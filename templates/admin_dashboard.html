@@ -10,6 +10,10 @@
       background: linear-gradient(135deg, #6366f1, #06b6d4);
       min-height: 100vh;
       color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
     .dashboard-card {
       background: white;
@@ -17,13 +21,9 @@
       border-radius: 15px;
       padding: 30px;
       box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-      margin-top: 100px;
-    }
-    a.btn {
-      transition: all 0.3s ease;
-    }
-    a.btn:hover {
-      transform: scale(1.05);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
     }
     .profile-pic {
       width: 130px;
@@ -38,19 +38,28 @@
     .profile-pic:hover {
       transform: scale(1.05);
     }
+    a.btn {
+      transition: all 0.3s ease;
+    }
+    a.btn:hover {
+      transform: scale(1.05);
+    }
+    @media (max-width: 576px) {
+      .dashboard-card { padding: 20px; }
+      .d-flex { flex-direction: column; gap: 10px !important; }
+      .btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="dashboard-card text-center">
-        <img src="{{ url_for('uploaded_file', filename=user.profile_pic) }}" alt="Profile Picture" class="profile-pic">
-      <h2 class="mb-3">Welcome, {{ user.username }} 👋</h2>
-      <p class="text-muted">Manage your events with ease.</p>
-      <div class="d-flex justify-content-center gap-3 mt-4">
-        <a href="/create_event" class="btn btn-primary px-4">➕ Create Event</a>
-        <a href="/logout" class="btn btn-outline-danger px-4">🚪 Logout</a>
-        <a href="/my_events" class="btn btn-outline-secondary px-4">📅 My Events</a>
-      </div>
+  <div class="dashboard-card">
+    <img src="{{ url_for('uploaded_file', filename=user.profile_pic) }}" alt="Profile Picture" class="profile-pic">
+    <h2 class="mb-3">Welcome, {{ user.username }} 👋</h2>
+    <p class="text-muted">Manage your events with ease.</p>
+    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+      <a href="/create_event" class="btn btn-primary px-4">➕ Create Event</a>
+      <a href="/my_events" class="btn btn-outline-secondary px-4">📅 My Events</a>
+      <a href="/logout" class="btn btn-outline-danger px-4">🚪 Logout</a>
     </div>
   </div>
 </body>
